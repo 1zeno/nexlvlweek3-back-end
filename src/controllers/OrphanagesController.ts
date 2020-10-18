@@ -29,7 +29,6 @@ export default {
         return response.json(orphanageView.render(orphanage));
     },
     async create(request: Request, response: Response){
-        console.log(request.files);
 
         const {
             name,
@@ -54,7 +53,7 @@ export default {
             about,
             instructions,
             opening_hours,
-            open_on_weekends,
+            open_on_weekends: open_on_weekends === "true",
             images
         };
     
