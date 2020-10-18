@@ -29,7 +29,6 @@ export default {
         return response.json(orphanageView.render(orphanage));
     },
     async create(request: Request, response: Response){
-        console.log(request.files);
 
         const {
             name,
@@ -47,6 +46,7 @@ export default {
         const images = requestImages.map(image=>{
             return { path: image.filename }
         })
+        
         const data = {
             name,
             latitude,
@@ -54,7 +54,7 @@ export default {
             about,
             instructions,
             opening_hours,
-            open_on_weekends,
+            open_on_weekends: open_on_weekends === "true",
             images
         };
     
@@ -76,16 +76,7 @@ export default {
         await schema.validate(data, {
             abortEarly: false,
         });
-        const orphanage = orphanagesRepository.create({
-            name,
-            latitude,
-            longitude,
-            about,
-            instructions,
-            opening_hours,
-            open_on_weekends,
-            images
-        });
+        const orphanage = orphanagesRepository.create(data);
     
         await orphanagesRepository.save(orphanage);
     
